@@ -26,6 +26,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.android.architecture.blueprints.todoapp.EventObserver
@@ -50,7 +53,26 @@ class TasksFragment : Fragment() {
 
     private lateinit var viewDataBinding: TasksFragBinding
 
-    private lateinit var listAdapter: TasksAdapter
+    init
+    {
+        object:LifecycleObserver
+        {
+            init
+            {
+                lifecycle.addObserver(this)
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_START)
+            fun start() {
+                println("Fragment start")
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+            fun stop() {
+                println("Fragment stop")
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -161,8 +183,7 @@ class TasksFragment : Fragment() {
     private fun setupListAdapter() {
         val viewModel = viewDataBinding.viewmodel
         if (viewModel != null) {
-            listAdapter = TasksAdapter(viewModel)
-            viewDataBinding.tasksList.adapter = listAdapter
+            viewDataBinding.tasksList.adapter = TasksAdapter(viewModel)
         } else {
             Timber.w("ViewModel not initialized when attempting to set up adapter.")
         }

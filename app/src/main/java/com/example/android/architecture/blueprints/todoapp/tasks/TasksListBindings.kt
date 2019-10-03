@@ -16,7 +16,9 @@
 package com.example.android.architecture.blueprints.todoapp.tasks
 
 import android.graphics.Paint
+import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.architecture.blueprints.todoapp.data.Task
@@ -25,15 +27,26 @@ import com.example.android.architecture.blueprints.todoapp.data.Task
  * [BindingAdapter]s for the [Task]s list.
  */
 @BindingAdapter("app:items")
-fun setItems(listView: RecyclerView, items: List<Task>) {
+fun setItems(listView:RecyclerView,items:List<Task>)
+{
     (listView.adapter as TasksAdapter).submitList(items)
 }
 
 @BindingAdapter("app:completedTask")
-fun setStyle(textView: TextView, enabled: Boolean) {
-    if (enabled) {
+fun setStyle(textView:TextView,enabled:Boolean)
+{
+    if (enabled)
+    {
         textView.paintFlags = textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-    } else {
+    }
+    else
+    {
         textView.paintFlags = textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
+}
+
+@BindingAdapter("app:penis")
+fun toast(view:View,text:String)
+{
+    Toast.makeText(view.context, text, Toast.LENGTH_LONG).show()
 }
